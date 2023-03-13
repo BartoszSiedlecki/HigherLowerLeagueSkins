@@ -41,6 +41,17 @@ const colour = [
     { filter: "grayscale(0%)"}
 ]
 
+const rankMessages = [
+    "Happens to the best! Good luck next time.",
+    "You put up a good fight! I bet you can do even better.",
+    "That's about halfway there. You're getting better!",
+    "This is actually way better than average. I bet you have a massive skin collection.",
+    "Most people would be satisfied by now, and you're somehow still going... I wonder what they are feeding you with.",
+    "Everyone's dream... But you've made it a reality."
+  ];
+  
+const rankTresholds = [0, 30, 60, 90, 120, 150];
+
 fetch("championFull.json")
     .then((res) => res.json())
     .then((data) => {
@@ -51,27 +62,25 @@ fetch("championFull.json")
         generateStartingSetup(champions)
 
         moreBttn.addEventListener("click", e => {
-        revealAnswer(1)  
-            setTimeout(() =>{
+            revealAnswer(() =>{
                 if(currentSkinCount >= previousSkinCount){
                     nextChampion()
                 } else lostGame(champions)
-            }, 2000)
+            }) 
         })
 
         lessBttn.addEventListener("click", e => {
-            revealAnswer(1)  
-            setTimeout(() =>{
+            revealAnswer(() =>{
                 if(currentSkinCount <= previousSkinCount){
                     nextChampion()
                 } else lostGame(champions)
-            }, 2000)
+            }) 
         })
     })
 
-
 function generateStartingSetup(champions){
     score = 0
+    scoreContainer.innerHTML = 0
     loseMenu.style.opacity = 0
     loseMenu.style.pointerEvents = "none"
     usedChampions = []
@@ -134,66 +143,36 @@ function addPoints(){
     scoreContainer.animate(fadeIn, 500)
 }
 
-function revealAnswer(i){
-    setTimeout(function() {
+function revealAnswer(callback){
+    let i = 1
+    const interval = setInterval(() =>{
         currentSkins.innerHTML = i
-        i++;
-        if (i <= currentSkinCount) {
-          revealAnswer(i);
+        i++
+        if (i > currentSkinCount) {
+            clearInterval(interval)
+            callback()
         }
-      }, 100)
+    }, 100)
 }
+
 
 function lostGame(champions){
-    loseMenu.style.opacity = 1
-    loseMenu.style.pointerEvents = "all"
-    loseMenu.animate(fadeIn, 500)
-    rankList.forEach(rank =>{
-        if(score > 0){
-            if(rank.dataset.img === "bronze"){
-                rank.style.filter = "grayscale(0)"
-                rank.animate(colour, 700)
-                briefingText.innerHTML = "Happens to the best! Good luck next time."
-            }
-        }
-        if(score >= 30){
-            if(rank.dataset.img === "silver"){
-                rank.style.filter = "grayscale(0)"
-                rank.animate(colour, 900)
-                briefingText.innerHTML = "You put up a good fight! I bet you can do even better."
-            }
-        }
-        if(score >= 60){
-            if(rank.dataset.img === "gold"){
-                rank.style.filter = "grayscale(0)"
-                rank.animate(colour, 1100)
-                briefingText.innerHTML = "That's about halfway there. You're getting better!"
-            }
-        }
-        if(score >= 90){
-            if(rank.dataset.img === "platinum"){
-                rank.style.filter = "grayscale(0)"
-                rank.animate(colour, 1300)
-                briefingText.innerHTML = "This is actually way better than average. I bet you have a massive skin collection."
-            }
-        }
-        if(score >= 120){
-            if(rank.dataset.img === "diamond"){
-                rank.style.filter = "grayscale(0)"
-                rank.animate(colour, 1500)
-                briefingText.innerHTML = "Most people would be satisfied by now, and you're somehow still going... I wonder what they are feeding you with."
-            }
-        }
-        if(score >= 150){
-            if(rank.dataset.img === "challanger"){
-                rank.style.filter = "grayscale(0)"
-                rank.animate(colour, 1700)
-                briefingText.innerHTML = "Everyone's dream... But you've made it a reality."
-            }
-        }
-    })
-    playAgainBttn.addEventListener("click", () =>{
-        generateStartingSetup(champions)
-    })
-}
+    setTimeout(() => {
+        loseMenu.style.opacity = 1
+        loseMenu.style.pointerEvents = "all"
+        loseMenu.animate(fadeIn, 500)
 
+        for(let i=0; i<rankMessages.length; i++){
+            const rank = rankList[i]
+            if(score >= rankTresholds[i]){
+                rank.style.filter = "grayscale(0)"
+                rank.animate(colour, 700 + i * 200)
+                briefingText.innerHTML = rankMessages[i]
+            }
+        }
+
+        playAgainBttn.addEventListener("click", () =>{
+            generateStartingSetup(champions)
+        })
+    }, 500);
+}

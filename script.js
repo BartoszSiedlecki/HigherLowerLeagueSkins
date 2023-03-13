@@ -13,6 +13,7 @@ const loseMenu = document.getElementById("lose-menu")
 const playAgainBttn = document.getElementById("play-again")
 const rankList = document.querySelectorAll("[data-img]")
 const briefingText = document.getElementById("briefing-text")
+const timeBar = document.getElementById("time-bar")
 
 const previousImg = document.createElement('img')
 const currentImg = document.createElement('img')
@@ -24,6 +25,9 @@ let previousId = 500
 let previousSkinCount = 0
 let currentSkinCount = 0
 let score = 0
+let timeLeft = 0
+let interval = null
+let doWePlay = false
 
 const moveToLeft = [
     { transform: "translateX(0)"},
@@ -48,9 +52,9 @@ const rankMessages = [
     "This is actually way better than average. I bet you have a massive skin collection.",
     "Most people would be satisfied by now, and you're somehow still going... I wonder what they are feeding you with.",
     "Everyone's dream... But you've made it a reality."
-  ];
+  ]
   
-const rankTresholds = [0, 30, 60, 90, 120, 150];
+const rankTresholds = [0, 30, 60, 90, 120, 150]
 
 fetch("championFull.json")
     .then((res) => res.json())
@@ -59,52 +63,64 @@ fetch("championFull.json")
             champions.push(data.data[i])
         }
 
-        generateStartingSetup(champions)
-
+        generateStartingSetup(champions, data)
+        
         moreBttn.addEventListener("click", e => {
+            moreBttn.disabled = true
+            lessBttn.disabled = true
+            clearInterval(interval)
             revealAnswer(() =>{
                 if(currentSkinCount >= previousSkinCount){
-                    nextChampion()
-                } else lostGame(champions)
+                    if(champions.length === 0){
+                        winGame()
+                    }
+                    nextChampion(champions, data)
+                } else lostGame(champions, data)
             }) 
         })
 
         lessBttn.addEventListener("click", e => {
+            moreBttn.disabled = true
+            lessBttn.disabled = true
+            clearInterval(interval)
             revealAnswer(() =>{
                 if(currentSkinCount <= previousSkinCount){
-                    nextChampion()
-                } else lostGame(champions)
+                    if(champions.length === 0){
+                        winGame()
+                    }
+                    nextChampion(champions, data)
+                } else lostGame(champions, data)
             }) 
         })
     })
 
-function generateStartingSetup(champions){
+function generateStartingSetup(champions, data){
+    champions = []
+    for(let i in data.data){
+        champions.push(data.data[i])
+    }
     score = 0
     scoreContainer.innerHTML = 0
     loseMenu.style.opacity = 0
     loseMenu.style.pointerEvents = "none"
-    usedChampions = []
     generateChampion(champions)
     previousSkinCount = champions[id].skins.length -1
     appendPreviousChamp(champions)
     generateChampion(champions)
     currentSkinCount = champions[id].skins.length -1
     appendCurrentChamp(champions)
+    timeBar.style.backgroundColor = "rgb(0, 128, 0)"
+    timeBar.children[0].innerText = "10"
+    timeBar.style.width = "100%"
 }
 
 function generateChampion(champions){
-    id = Math.floor(Math.random() * 159)
-            if(id === previousId){
-                if(id === 0){
-                    id++
-                }else {
-                    id--
-                }
-            }
-    if(usedChampions.includes(champions[id].id)){
-        generateChampion(champions)
-    }
-    usedChampions.push(champions[id].id)
+    id = Math.floor(Math.random() * champions.length)
+        if(id === previousId){
+            if(id === 0){
+                id++
+            }else id--
+        }
     previousId = id
 }
 
@@ -115,18 +131,19 @@ function appendPreviousChamp(champions){
     previousSkinCount = champions[id].skins.length -1
     previousImg.src = "img/loading/" + champions[id].id + "_0.jpg"
     previousPortrait.appendChild(previousImg)
+    champions.splice(id, 1)
 }
 
 function appendCurrentChamp(champions){
     currentBg.style.backgroundImage = "url(img/splash/" + champions[id].id + "_0.jpg)"
     currentName.innerText = champions[id].name
     currentSkinCount = champions[id].skins.length -1
-    currentSkins.innerHTML = "?"
+    currentSkins.innerText = "?"
     currentImg.src = "img/loading/" + champions[id].id + "_0.jpg"
     currentPortrait.appendChild(currentImg)
 }
 
-function nextChampion(){
+function nextChampion(champions, data){
     addPoints()
     currentBg.animate(moveToLeft, 500)
     setTimeout(() =>{
@@ -134,7 +151,11 @@ function nextChampion(){
         generateChampion(champions)
         appendCurrentChamp(champions)
         currentBg.animate(fadeIn, 500)
+        
     }, 490)
+    resetTimeBar(champions, data)
+    moreBttn.disabled = false
+    lessBttn.disabled = false
 }
 
 function addPoints(){
@@ -146,7 +167,7 @@ function addPoints(){
 function revealAnswer(callback){
     let i = 1
     const interval = setInterval(() =>{
-        currentSkins.innerHTML = i
+        currentSkins.innerText = i
         i++
         if (i > currentSkinCount) {
             clearInterval(interval)
@@ -156,7 +177,7 @@ function revealAnswer(callback){
 }
 
 
-function lostGame(champions){
+function lostGame(champions, data){
     setTimeout(() => {
         loseMenu.style.opacity = 1
         loseMenu.style.pointerEvents = "all"
@@ -167,12 +188,41 @@ function lostGame(champions){
             if(score >= rankTresholds[i]){
                 rank.style.filter = "grayscale(0)"
                 rank.animate(colour, 700 + i * 200)
-                briefingText.innerHTML = rankMessages[i]
+                briefingText.innerText = rankMessages[i]
             }
         }
 
         playAgainBttn.addEventListener("click", () =>{
-            generateStartingSetup(champions)
+            generateStartingSetup(champions, data)
         })
-    }, 500);
+    }, 500)
+}
+
+function resetTimeBar(champions, data){
+    timeLeft = 10
+    let half = timeLeft/2
+    let rgb = 0
+    timeBar.style.backgroundColor = "rgb(0, 128, 0)"
+    timeBar.style.transition = "width 1s linear, background-color 1s linear"
+    timeBar.style.width = "100%"
+    timeBar.children[0].innerText = timeLeft
+    clearInterval(interval)
+    interval = setInterval(() =>{
+        timeLeft--
+        timeBar.style.width = timeLeft*10 + "%"
+        timeBar.children[0].innerText = timeLeft
+        if(timeLeft >= half){
+            rgb = rgb + 25
+            timeBar.style.backgroundColor = "rgb("+ rgb + ", 128, 0)"
+        }
+        else{
+            rgb = rgb - 25
+            timeBar.style.backgroundColor = "rgb(128," + rgb + ",0)"
+        }
+        if (timeLeft === -1) {
+            timeBar.children[0].innerText = 0
+            clearInterval(interval)
+            lostGame(champions, data)
+          }
+    }, 1000)
 }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
-    <title>Document</title>
+    <title>HigherLowerLoLSkins</title>
 </head>
 <body>
     <div class="container">
@@ -15,6 +15,11 @@
         </div>
         <div class="points">
             <p id="score">0</p>
+        </div>
+        <div class="timer">
+            <div class="bar" id="time-bar">
+                <p class="left">10</p>
+            </div>
         </div>
         <div class="field">
             <section class="previous sections" id="previous">
@@ -43,12 +48,30 @@
         <div class="lose-screen" id="lose-menu">
             <div class="content-container">
                 <div class="ranking">
-                    <img src="img/rank/Bronze.png" data-img="bronze" alt="rank">
-                    <img src="img/rank/Silver.png" data-img="silver" alt="rank">
-                    <img src="img/rank/Gold.png" data-img="gold" alt="rank">
-                    <img src="img/rank/Platinum.png" data-img="platinum" alt="rank">
-                    <img src="img/rank/Diamond.png" data-img="diamond" alt="rank">
-                    <img src="img/rank/Challenger.png" data-img="challanger" alt="rank">
+                    <div class="rank-panel">
+                        <img src="img/rank/Bronze.png" data-img="bronze" alt="rank">
+                        <p>Bronze</p>
+                    </div>
+                    <div class="rank-panel">
+                        <img src="img/rank/Silver.png" data-img="silver" alt="rank">
+                        <p>Silver</p>
+                    </div>
+                    <div class="rank-panel">
+                        <img src="img/rank/Gold.png" data-img="gold" alt="rank">
+                        <p>Gold</p>
+                    </div>
+                    <div class="rank-panel">
+                        <img src="img/rank/Platinum.png" data-img="platinum" alt="rank">
+                        <p>Platinum</p>
+                    </div>
+                    <div class="rank-panel">
+                        <img src="img/rank/Diamond.png" data-img="diamond" alt="rank">
+                        <p>Diamond</p>
+                    </div>
+                    <div class="rank-panel">
+                        <img src="img/rank/Challenger.png" data-img="challanger" alt="rank">
+                        <p>Challanger</p>
+                    </div>
                 </div>
                 <h1 class="header">Thank you for playing!</h1>
                 <h2 class="briefing" id="briefing-text">That must've been a missed click, I'm pretty sure...</h2>

@@ -14,6 +14,7 @@ const playAgainBttn = document.getElementById("play-again")
 const rankList = document.querySelectorAll("[data-img]")
 const briefingText = document.getElementById("briefing-text")
 const timeBar = document.getElementById("time-bar")
+const scoreMobile = document.getElementById("score-mobile")
 
 const previousImg = document.createElement('img')
 const currentImg = document.createElement('img')
@@ -100,7 +101,8 @@ function generateStartingSetup(champions, data){
         champions.push(data.data[i])
     }
     score = 0
-    scoreContainer.innerHTML = 0
+    scoreContainer.innerText = 0
+    scoreMobile.innerText = 0
     loseMenu.style.opacity = 0
     loseMenu.style.pointerEvents = "none"
     generateChampion(champions)
@@ -112,6 +114,8 @@ function generateStartingSetup(champions, data){
     timeBar.style.backgroundColor = "rgb(0, 128, 0)"
     timeBar.children[0].innerText = "10"
     timeBar.style.width = "100%"
+    moreBttn.disabled = false
+    lessBttn.disabled = false
 }
 
 function generateChampion(champions){
@@ -160,8 +164,10 @@ function nextChampion(champions, data){
 
 function addPoints(){
     score++
-    scoreContainer.innerText = score
+    scoreContainer.innerText = score    
     scoreContainer.animate(fadeIn, 500)
+    scoreMobile.innerText = score
+    scoreMobile.animate(fadeIn, 500)
 }
 
 function revealAnswer(callback){

@@ -252,4 +252,35 @@ body {
   .field .sections {
     width: 100%;
   }
+  .field .sections .content {
+    width: 100%;
+  }
+  .field .sections .content img {
+    height: 320px;
+    width: 180px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 1.2rem;
+  }
+  .field .sections .content {
+    -webkit-backdrop-filter: blur(0);
+            backdrop-filter: blur(0);
+  }
+  .field .sections .content img {
+    display: none;
+  }
+}
+@media only screen and (max-height: 820px) {
+  .field .sections {
+    width: 100%;
+  }
+  .field .sections .content {
+    -webkit-backdrop-filter: blur(0);
+            backdrop-filter: blur(0);
+  }
+  .field .sections img {
+    display: none;
+  }
 }/*# sourceMappingURL=styles.css.map */

@@ -286,6 +286,49 @@ body{
 
         .sections{
             width: 100%;
+
+            .content{
+                width: 100%;
+
+                img{
+                    height: 320px;
+                    width: 180px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    html{
+        font-size: 1.2rem;
+    }
+
+    .field{
+        .sections{
+            .content{
+                backdrop-filter: blur(0);
+                img{
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-height: 820px) {
+    .field{
+
+        .sections{
+            width: 100%;
+            
+            .content{
+                backdrop-filter: blur(0);
+            }
+
+            img{
+                display: none;
+            }
         }
     }
 }

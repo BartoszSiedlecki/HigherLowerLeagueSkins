@@ -121,9 +121,8 @@ function generateStartingSetup(champions, data){
 function generateChampion(champions){
     id = Math.floor(Math.random() * champions.length)
         if(id === previousId){
-            if(id === 0){
-                id++
-            }else id--
+            if(id === 0) id++
+            else id--
         }
     previousId = id
 }
@@ -135,7 +134,6 @@ function appendPreviousChamp(champions){
     previousSkinCount = champions[id].skins.length -1
     previousImg.src = "img/loading/" + champions[id].id + "_0.jpg"
     previousPortrait.appendChild(previousImg)
-    champions.splice(id, 1)
 }
 
 function appendCurrentChamp(champions){
@@ -152,10 +150,10 @@ function nextChampion(champions, data){
     currentBg.animate(moveToLeft, 500)
     setTimeout(() =>{
         appendPreviousChamp(champions)
+        champions.splice(id, 1)
         generateChampion(champions)
         appendCurrentChamp(champions)
         currentBg.animate(fadeIn, 500)
-        
     }, 490)
     resetTimeBar(champions, data)
     moreBttn.disabled = false

@@ -20,6 +20,19 @@ $text: rgb(240, 230, 210);
 $border: rgb(60, 60, 65);
 $gold: rgb(200, 155, 60);
 
+::-webkit-scrollbar {
+    width: .3rem;
+}
+  
+::-webkit-scrollbar-track {
+    background: $bg;
+}
+  
+::-webkit-scrollbar-thumb {
+    background: $gold;
+    border-radius: 1rem;
+}
+
 body{
     height: 100vh;
     width: 100vw;
@@ -199,7 +212,7 @@ body{
     z-index: 1000;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
 
@@ -225,15 +238,79 @@ body{
         }
 
         .header{
-            margin-top: 5rem;
+            margin-top: 3rem;
             letter-spacing: 3px;
         }
 
         .briefing{
-            margin-top: 2rem;
+            margin-top: 1rem;
             font-size: 1rem;
             font-weight: 100;
         }
+
+        .save-score{
+            margin-top: 3rem;
+            font-size: 1rem;
+            font-weight: 100;
+        }
+
+        .player{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .name{
+                margin-top: 1rem;
+                height: 2rem;
+                width: 15rem;
+                border: 1px solid $gold;
+                background-color: $bg;
+                text-align: center;
+                font-size: 1rem;
+                color: white;
+    
+                &:focus::placeholder{
+                    color: transparent;
+                }
+
+                &:disabled{
+                    opacity: .5;
+                    cursor: not-allowed;
+                }
+            }
+    
+            .submit-name{
+                margin-top: 1rem;
+                height: 1.5rem;
+                width: 6rem;
+                border: 1px solid $gold;
+                background-color: $bg;
+                text-align: center;
+                font-size: .8rem;
+                color: white;
+                cursor: pointer;
+                transition: ease-in-out .1s;
+    
+                &:hover{
+                    transform: scale(105%);
+                    border-radius: 5px;
+                }
+
+                &:disabled{
+                    opacity: .5;
+                    cursor: not-allowed;
+                }
+            }
+
+            .send-pop-up{
+                opacity: 0;
+                margin-top: 1rem;
+                color: $gold;
+                transition: .1s ease-in;
+            }
+        }
+
+        
 
         .play-again{
             background: none;
@@ -241,13 +318,88 @@ body{
             font-family: leagueFont;
             color:rgb(200, 155, 60);
             font-size: 2rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
             cursor: pointer;
 
             &:hover{
                 color: green;
             }
         }
+    }
+}
+
+.scoreboard-container{
+    position: absolute;
+    z-index: 10000;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: grid;
+    place-items: center;
+    display: none;
+
+    .scoreboard{
+        position: relative;
+        height: 70%;
+        width: 70%;
+        padding: 1rem;
+        padding-top: 3rem;
+        background-color: $bg;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        box-shadow: 0px 0px 5px .1px $gold;
+
+        .row{
+            width: 65vw;
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+            
+            li{
+                
+                padding-bottom: .5rem;
+                width: 100%;
+            }
+
+            .player-name{
+                width: 200%;
+            }
+
+            .score{
+                text-align: center;
+            }
+
+            .attempts{
+                text-align: center;
+            }
+        }
+
+        .first{
+            position: fixed;
+            width: 65vw;
+            padding-top: .7rem;
+            border-bottom: 1px solid $gold;
+            background-color: $bg;
+            transform: translateY(-72px);
+        }
+    }
+}
+
+.scoreboard-icon{
+    position: absolute;
+    z-index: 10000;
+    bottom: 1rem;
+    right: 1rem;
+    filter: drop-shadow(0px 0px 20px white);
+    cursor: pointer;
+    transition: .2s ease-in-out;
+
+    &:hover{
+        filter: drop-shadow(0px 0px 5px white);
+    }
+
+    img{
+        width: 100px;
     }
 }
 

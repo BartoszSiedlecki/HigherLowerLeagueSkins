@@ -16,6 +16,19 @@ html {
           user-select: none;
 }
 
+::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(1, 10, 19);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(200, 155, 60);
+  border-radius: 1rem;
+}
+
 body {
   height: 100vh;
   width: 100vw;
@@ -177,7 +190,7 @@ body {
   z-index: 1000;
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
 }
@@ -200,13 +213,69 @@ body {
   filter: grayscale(100%);
 }
 .lose-screen .content-container .header {
-  margin-top: 5rem;
+  margin-top: 3rem;
   letter-spacing: 3px;
 }
 .lose-screen .content-container .briefing {
-  margin-top: 2rem;
+  margin-top: 1rem;
   font-size: 1rem;
   font-weight: 100;
+}
+.lose-screen .content-container .save-score {
+  margin-top: 3rem;
+  font-size: 1rem;
+  font-weight: 100;
+}
+.lose-screen .content-container .player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lose-screen .content-container .player .name {
+  margin-top: 1rem;
+  height: 2rem;
+  width: 15rem;
+  border: 1px solid rgb(200, 155, 60);
+  background-color: rgb(1, 10, 19);
+  text-align: center;
+  font-size: 1rem;
+  color: white;
+}
+.lose-screen .content-container .player .name:focus::-moz-placeholder {
+  color: transparent;
+}
+.lose-screen .content-container .player .name:focus::placeholder {
+  color: transparent;
+}
+.lose-screen .content-container .player .name:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.lose-screen .content-container .player .submit-name {
+  margin-top: 1rem;
+  height: 1.5rem;
+  width: 6rem;
+  border: 1px solid rgb(200, 155, 60);
+  background-color: rgb(1, 10, 19);
+  text-align: center;
+  font-size: 0.8rem;
+  color: white;
+  cursor: pointer;
+  transition: ease-in-out 0.1s;
+}
+.lose-screen .content-container .player .submit-name:hover {
+  transform: scale(105%);
+  border-radius: 5px;
+}
+.lose-screen .content-container .player .submit-name:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.lose-screen .content-container .player .send-pop-up {
+  opacity: 0;
+  margin-top: 1rem;
+  color: rgb(200, 155, 60);
+  transition: 0.1s ease-in;
 }
 .lose-screen .content-container .play-again {
   background: none;
@@ -214,11 +283,76 @@ body {
   font-family: leagueFont;
   color: rgb(200, 155, 60);
   font-size: 2rem;
-  margin-top: 2rem;
+  margin-top: 3rem;
   cursor: pointer;
 }
 .lose-screen .content-container .play-again:hover {
   color: green;
+}
+
+.scoreboard-container {
+  position: absolute;
+  z-index: 10000;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: grid;
+  place-items: center;
+  display: none;
+}
+.scoreboard-container .scoreboard {
+  position: relative;
+  height: 70%;
+  width: 70%;
+  padding: 1rem;
+  padding-top: 3rem;
+  background-color: rgb(1, 10, 19);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  box-shadow: 0px 0px 5px 0.1px rgb(200, 155, 60);
+}
+.scoreboard-container .scoreboard .row {
+  width: 65vw;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+.scoreboard-container .scoreboard .row li {
+  padding-bottom: 0.5rem;
+  width: 100%;
+}
+.scoreboard-container .scoreboard .row .player-name {
+  width: 200%;
+}
+.scoreboard-container .scoreboard .row .score {
+  text-align: center;
+}
+.scoreboard-container .scoreboard .row .attempts {
+  text-align: center;
+}
+.scoreboard-container .scoreboard .first {
+  position: fixed;
+  width: 65vw;
+  padding-top: 0.7rem;
+  border-bottom: 1px solid rgb(200, 155, 60);
+  background-color: rgb(1, 10, 19);
+  transform: translateY(-72px);
+}
+
+.scoreboard-icon {
+  position: absolute;
+  z-index: 10000;
+  bottom: 1rem;
+  right: 1rem;
+  filter: drop-shadow(0px 0px 20px white);
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+.scoreboard-icon:hover {
+  filter: drop-shadow(0px 0px 5px white);
+}
+.scoreboard-icon img {
+  width: 100px;
 }
 
 @media only screen and (max-width: 1100px) {

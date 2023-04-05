@@ -15,20 +15,23 @@ const rankList = document.querySelectorAll("[data-img]")
 const briefingText = document.getElementById("briefing-text")
 const timeBar = document.getElementById("time-bar")
 const scoreMobile = document.getElementById("score-mobile")
+const submitNameBtn = document.getElementById("submit-name")
+const playerName = document.getElementById("submit-value")
+const playerSendForm = document.getElementById("player-send-form")
+const sendPopUp = document.getElementById("send-pop-up")
 
 const previousImg = document.createElement('img')
 const currentImg = document.createElement('img')
 
+let score = 0
 let champions = new Array
 let usedChampions = new Array
 let id = 0
 let previousId = 500
 let previousSkinCount = 0
 let currentSkinCount = 0
-let score = 0
 let timeLeft = 0
 let interval = null
-let doWePlay = false
 
 const moveToLeft = [
     { transform: "translateX(0)"},
@@ -116,6 +119,7 @@ function generateStartingSetup(champions, data){
     timeBar.style.width = "100%"
     moreBttn.disabled = false
     lessBttn.disabled = false
+    resetFormBttns()
 }
 
 function generateChampion(champions){
@@ -196,9 +200,17 @@ function lostGame(champions, data){
             }
         }
 
-        playAgainBttn.addEventListener("click", () =>{
+        playerSendForm.addEventListener("submit", e =>{
+            event.preventDefault()
+            let playerNickname = playerName.value
+            sendPlayerScore(globalDataLength ,playerNickname, score, 1)
+            afterSendPopUp()
+        })
+
+        playAgainBttn.addEventListener("click", e =>{
             generateStartingSetup(champions, data)
         })
+
     }, 500)
 }
 
@@ -229,4 +241,79 @@ function resetTimeBar(champions, data){
             lostGame(champions, data)
           }
     }, 1000)
+}
+
+function afterSendPopUp(){
+    sendPopUp.style.opacity = 1
+    submitNameBtn.disabled = true
+    playerName.disabled = true
+}
+
+function resetFormBttns(){
+    sendPopUp.style.opacity = 0
+    submitNameBtn.disabled = false
+    playerName.disabled = false
+    playerName.value = ""
+}
+
+const scoreboard = document.getElementById("scoreboard")
+const scoreboardBtn = document.getElementById("scoreboard-btn")
+const scoreboardCont = document.getElementById("scoreboard-container")
+let globalDataLength = 0
+
+fetchScoreboardData()
+function fetchScoreboardData(){
+    fetch('http://localhost:3000/scores')
+    .then(response => response.json())
+    .then(data => {
+        globalDataLength = data.length
+        scoreboardBtn.addEventListener("click", e =>{
+            fetchScoreboardData()
+            scoreboardCont.style.display = "grid"
+            generateScoreboard(data) 
+        })
+    })
+    .catch(error => console.error(error));
+}
+
+function generateScoreboard(data){
+    scoreboard.innerText = ""
+    for(let i=0; i<data.length; i++){
+        const playerData = document.createElement("ul")
+        const playerRanking = document.createElement("li")
+        const playerName = document.createElement("li")
+        const playerScore = document.createElement("li")
+        const playerAttempt = document.createElement("li") 
+        playerData.appendChild(playerRanking)
+        playerData.appendChild(playerName)
+        playerData.appendChild(playerScore)
+        playerData.appendChild(playerAttempt)
+        scoreboard.appendChild(playerData)
+        playerData.classList.add("row")
+        playerRanking.classList.add("ranking")
+        playerName.classList.add("player-name")
+        playerScore.classList.add("score")
+        playerAttempt.classList.add("attempts")
+        playerRanking.innerText = i + 1
+        playerName.innerText = data[i].player_name
+        playerScore.innerText = data[i].score
+        playerAttempt.innerText = data[i].attempts
+    }
+}
+
+scoreboardCont.addEventListener("click", e =>{
+    scoreboardCont.style.display = "none"
+})
+
+function sendPlayerScore(id, playerName, score, attempts){
+    fetch('http://localhost:3000/submit', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id, playerName: playerName, score: score, attempts: attempts })
+    })
+    .then(response => response.json())
+    .catch(error => console.error(error))
 }

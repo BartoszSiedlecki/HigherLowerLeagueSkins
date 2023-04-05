@@ -23,6 +23,9 @@
                 <p class="left">10</p>
             </div>
         </div>
+        <div class="scoreboard-icon" id="scoreboard-btn">
+            <img src="img/site-icons/scoreboard.png" alt="scoreboard">
+        </div>
         <div class="field">
             <section class="previous sections" id="previous">
                 <div class="content">
@@ -77,7 +80,24 @@
                 </div>
                 <h1 class="header">Thank you for playing!</h1>
                 <h2 class="briefing" id="briefing-text">That must've been a missed click, I'm pretty sure...</h2>
+                <h3 class="save-score">Would you like to save your score?</h3>
+                <form class="player" id="player-send-form">
+                    <input class="name" type="text" placeholder="Your name" maxlength="20" minlength="4" id="submit-value" required>
+                    <input class="submit-name" type="submit" value="Save score" id="submit-name">
+                    <a class="send-pop-up" id="send-pop-up">Score Saved!</a>
+                </form>
                 <button class="play-again" id="play-again">Play again?</button>
+            </div>
+        </div>
+        <div class="scoreboard-container" id="scoreboard-container">
+            <div class="scoreboard">
+                <ul class="row first">
+                    <li class="ranking">Ranking</li>
+                    <li class="player-name">Player Name</li>
+                    <li class="score">Score</li>
+                    <li class="attempts">Attempts</li>
+                </ul>
+                <div class="scoreboard-data" id="scoreboard"></div>
             </div>
         </div>
     </div>

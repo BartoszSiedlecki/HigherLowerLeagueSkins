@@ -3,12 +3,19 @@ const bodyParser = require('body-parser')
 const app = express()
 const { Pool } = require('pg')
 require('dotenv').config()
+const { Client } = require('pg')
 
-const cors = require('cors');
+const cors = require('cors')
 app.use(cors({
     origin: '*',
     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
 }))
+
+const client = new Client({
+  connectionString: 'postgres://kycfxbjg:lq9hyC_FwdBJ2yuR_h43DSyTXs2Jlcwu@horton.db.elephantsql.com/kycfxbjg'
+})
+
+client.connect();
 
 const pool = new Pool({
   user: process.env.PGUSER,
@@ -26,7 +33,7 @@ app.listen(PORT, () =>{
 
 app.get('/scores', async (req, res) =>{
   try{
-    const result = await pool.query('SELECT * FROM "Scoreboard" ORDER BY score DESC')
+    const result = await client.query('SELECT * FROM public."Scoreboard" ORDER BY score DESC')
     res.json(result.rows)
   } catch (err) {
     console.error(err)
@@ -39,7 +46,7 @@ app.use(bodyParser.json());
 app.post('/submit', async (req, res) =>{
   try {
     const { id, playerName, score, attempts } = req.body;
-    const result = await pool.query(
+    const result = await client.query(
       'INSERT INTO "Scoreboard" (id, player_name, score, attempts) VALUES ($1, $2, $3, $4) RETURNING *',
       [id, playerName, score, attempts]
     )

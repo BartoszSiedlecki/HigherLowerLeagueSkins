@@ -31,6 +31,10 @@ app.listen(PORT, () =>{
   console.log(`Server listening on port ${PORT}`)
 })
 
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
+
 app.get('/scores', async (req, res) =>{
   try{
     const result = await client.query('SELECT * FROM public."Scoreboard" ORDER BY score DESC')

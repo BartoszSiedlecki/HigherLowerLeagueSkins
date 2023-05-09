@@ -42,8 +42,8 @@ body{
 }
 
 .container{
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     display: grid;
     place-items: center;
 }
@@ -78,7 +78,7 @@ body{
     top: 5vh;
     text-align: center;
     font-size: 2rem;
-    z-index: 10000;
+    z-index: 1000;
     backdrop-filter: blur(5px);
 
     p{
@@ -109,8 +109,8 @@ body{
 }
 
 .field{
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     align-items: center;
 
@@ -206,6 +206,7 @@ body{
 }
 
 .lose-screen{
+    overflow-y: scroll;
     opacity: 0;
     pointer-events: none;
     position: absolute;
@@ -220,9 +221,14 @@ body{
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 5rem;
+        margin-top: 2rem;
+
+        .final-points{
+            font-size: 2rem;
+        }
 
         .ranking{
+            margin-top: 1rem;
             display: flex;
 
             .rank-panel{
@@ -308,9 +314,7 @@ body{
                 color: $gold;
                 transition: .1s ease-in;
             }
-        }
-
-        
+        } 
 
         .play-again{
             background: none;
@@ -442,10 +446,31 @@ body{
             .content{
                 width: 100%;
 
+                .text{
+                    .buttons{
+                        .button{
+                            width: 6rem;
+                            height: 2rem;
+                        }
+                    }
+                }
+
                 img{
                     height: 320px;
                     width: 180px;
                 }
+            }
+        }
+    }
+
+    .scoreboard-icon{
+        transform: scale(70%) translate(1.5rem, 1rem);
+    }
+
+    .scoreboard-container{
+        .scoreboard{
+            .first{
+                transform: translateY(-3rem);
             }
         }
     }
@@ -470,17 +495,41 @@ body{
 
 @media only screen and (max-height: 820px) {
     .field{
-
         .sections{
             width: 100%;
             
             .content{
                 backdrop-filter: blur(0);
+                font-size: .8rem;
             }
 
             img{
                 display: none;
             }
         }
+    }
+    .current{
+        .content{
+            .text{
+                .buttons{
+                    flex-direction: row !important;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: .5rem;
+                    gap: .5rem; 
+
+                    .button{
+                        height: 1.5rem !important;
+                        width: 4rem !important;
+                        font-size: .6rem !important;
+                        letter-spacing: 0 !important;
+                    }
+                        
+                }
+            }
+        }
+    }
+    .scoreboard-icon{
+        transform: scale(70%) translate(1.5rem, 1rem);
     }
 }

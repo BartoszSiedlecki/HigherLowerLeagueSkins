@@ -19,6 +19,7 @@ const submitNameBtn = document.getElementById("submit-name")
 const playerName = document.getElementById("submit-value")
 const playerSendForm = document.getElementById("player-send-form")
 const sendPopUp = document.getElementById("send-pop-up")
+const postLoseScore = document.getElementById("final-score")
 
 const previousImg = document.createElement('img')
 const currentImg = document.createElement('img')
@@ -66,7 +67,6 @@ fetch("championFull.json")
         for(let i in data.data){
             champions.push(data.data[i])
         }
-
         generateStartingSetup(champions, data)
         
         moreBttn.addEventListener("click", e => {
@@ -199,6 +199,11 @@ function lostGame(champions, data){
                 briefingText.innerText = rankMessages[i]
             }
         }
+
+        for(let i=0; i<=score; i++){
+            setTimeout(() => {postLoseScore.innerHTML = i}, 50 * i)
+        }
+        
 
         playerSendForm.addEventListener("submit", e =>{
             event.preventDefault()

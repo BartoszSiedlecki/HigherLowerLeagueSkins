@@ -268,7 +268,7 @@ let globalDataLength = 0
 
 fetchScoreboardData()
 function fetchScoreboardData(){
-    fetch('https://lolgame-backend.onrender.com/scores')   //http://localhost:10000/scores
+    fetch('https://lolgame-backend.onrender.com/scores')
     .then(response => response.json())
     .then(data => {
         globalDataLength = data.length
@@ -311,7 +311,7 @@ scoreboardCont.addEventListener("click", e =>{
 })
 
 function sendPlayerScore(id, playerName, score, attempts){
-    fetch('https://lolgame-backend.onrender.com/submit', { //http://localhost:10000/submit
+    fetch('https://lolgame-backend.onrender.com/submit', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

@@ -207,6 +207,7 @@ body{
 
 .lose-screen{
     overflow-y: scroll;
+    overflow-x: hidden;
     opacity: 0;
     pointer-events: none;
     position: absolute;
@@ -474,6 +475,25 @@ body{
             }
         }
     }
+
+    .lose-screen{
+        .content-container{
+                .ranking{
+                    .rank-panel{
+                        display: none;
+                    }
+                    .mobile-active{
+                        display: flex;
+                        p{
+                            margin-top: -1rem
+                        }
+                    }
+                }              
+            .final-points{
+                margin-bottom: -1rem;
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 600px) {
@@ -488,6 +508,28 @@ body{
                 img{
                     display: none;
                 }
+            }
+        }
+    }
+
+    .lose-screen{
+        font-size: .8rem;
+        .content-container{
+                .ranking{
+                    .mobile-active{
+                        p{
+                            margin-top: -2rem
+                        }
+                    }
+                }              
+            .final-points{
+                margin-bottom: -2rem;
+            }
+            .header{
+                margin-top: 2rem;
+            }
+            .play-again{
+                margin: 0;
             }
         }
     }

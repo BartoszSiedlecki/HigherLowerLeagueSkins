@@ -33,6 +33,7 @@ let previousSkinCount = 0
 let currentSkinCount = 0
 let timeLeft = 0
 let interval = null
+let loggedIn = false
 
 const moveToLeft = [
     { transform: "translateX(0)"},
@@ -208,6 +209,9 @@ function lostGame(champions, data){
         playerSendForm.addEventListener("submit", e =>{
             event.preventDefault()
             let playerNickname = playerName.value
+            if(localStorage.name === "Guest"){
+                localStorage.name = playerNickname
+            }
             sendPlayerScore(globalDataLength ,playerNickname, score, 1)
             afterSendPopUp()
         })
@@ -322,3 +326,33 @@ function sendPlayerScore(id, playerName, score, attempts){
     .then(response => response.json())
     .catch(error => console.error(error))
 }
+
+//handle local user authentication
+
+const localUser = document.getElementById("user-nickname")
+const localIcon = document.getElementById("user-picture")
+
+if(localStorage.id == null){
+    let newRandomID = crypto.randomUUID()
+    localStorage.id = newRandomID
+    localStorage.name = "Guest"
+    localStorage.bestScore = 0
+    localStorage.avgScore = 0
+    localStorage.totalAttempts = 0
+    localStorage.icon = "guest.png"
+}else{
+    console.log("Logged in as a: " + localStorage.id)
+    loggedIn = true
+    updateFromLocalStorage()
+}
+console.log(localStorage)
+console.log(loggedIn)
+
+function updateFromLocalStorage(){
+    localUser.innerHTML = localStorage.name
+    localIcon.src = "/img/profile/" + localStorage.icon
+}
+
+localUser.addEventListener("click", () =>{
+
+})

@@ -216,7 +216,7 @@ body {
 }
 .lose-screen .content-container img {
   width: 150px;
-  filter: grayscale(100%);
+  filter: grayscale(90%);
 }
 .lose-screen .content-container .header {
   margin-top: 3rem;
@@ -361,6 +361,62 @@ body {
   width: 100px;
 }
 
+.local-profile {
+  position: absolute;
+  z-index: 1000;
+  right: 0;
+  top: 0;
+  min-width: 10%;
+  height: 80px;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0.3rem 1rem 0.3rem 1rem;
+  gap: 1rem;
+  display: none;
+}
+.local-profile img {
+  height: 100%;
+  background-color: white;
+  border-radius: 100%;
+  border: 2px solid rgb(200, 155, 60);
+}
+.local-profile .user-nickname {
+  cursor: pointer;
+  transition: ease-in-out 0.2s;
+}
+.local-profile .user-nickname:hover {
+  color: rgb(200, 155, 60);
+}
+
+.edit-profile {
+  display: none;
+  position: absolute;
+  z-index: 10000;
+  height: 80%;
+  width: 80%;
+  padding: 1rem;
+  background-color: rgb(1, 10, 19);
+  box-shadow: 0px 0px 5px 0.1px rgb(200, 155, 60);
+}
+.edit-profile .profile {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 100px;
+}
+.edit-profile .profile img {
+  height: 90%;
+  background-color: white;
+  border-radius: 100%;
+  border: 2px solid rgb(200, 155, 60);
+  cursor: pointer;
+}
+.edit-profile .profile a {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
 @media only screen and (max-width: 1100px) {
   .half-screen {
     top: 50%;

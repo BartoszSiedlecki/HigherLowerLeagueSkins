@@ -204,7 +204,12 @@ function lostGame(champions, data){
         for(let i=0; i<=score; i++){
             setTimeout(() => {postLoseScore.innerHTML = i}, 50 * i)
         }
-        
+
+        localStorage.totalAttempts++
+        if(score > localStorage.bestScore){
+            localStorage.bestScore = score
+        }
+        updateFromLocalStorage()
 
         playerSendForm.addEventListener("submit", e =>{
             event.preventDefault()
@@ -331,7 +336,20 @@ function sendPlayerScore(id, playerName, score, attempts){
 
 const localUser = document.getElementById("user-nickname")
 const localIcon = document.getElementById("user-picture")
+const profilePanel = document.getElementById("edit-profile")
+const editProfileImg = document.getElementById("edit-picture")
+const changeUserName = document.getElementById("edit-nickname")
+const profileImgList = document.getElementById("profile-icon-list")
+const allIcons = document.getElementsByName("profile-icon")
+const closeBttn = document.getElementById("close-bttn")
+const changeName = document.getElementById("change-name")
+const newName = document.getElementById("provided-name")
+const submitName = document.getElementById("accept-name")
+const bestScoreCont = document.getElementById("best-score")
+const avgScoreCont = document.getElementById("average-score")
+const totalAttemptsCont = document.getElementById("total-attempts")
 
+localStorage.clear()
 if(localStorage.id == null){
     let newRandomID = crypto.randomUUID()
     localStorage.id = newRandomID
@@ -340,19 +358,61 @@ if(localStorage.id == null){
     localStorage.avgScore = 0
     localStorage.totalAttempts = 0
     localStorage.icon = "guest.png"
+    updateFromLocalStorage()
 }else{
     console.log("Logged in as a: " + localStorage.id)
-    loggedIn = true
     updateFromLocalStorage()
 }
 console.log(localStorage)
-console.log(loggedIn)
+
 
 function updateFromLocalStorage(){
-    localUser.innerHTML = localStorage.name
+    localUser.innerText = localStorage.name
     localIcon.src = "/img/profile/" + localStorage.icon
+    changeUserName.innerText = localStorage.name
+    editProfileImg.src = "/img/profile/" + localStorage.icon
+    bestScoreCont.innerText = localStorage.bestScore
+    avgScoreCont.innerText = localStorage.avgScore
+    totalAttemptsCont.innerText = localStorage.totalAttempts
 }
 
-localUser.addEventListener("click", () =>{
-
+localUser.addEventListener("click", e =>{
+    profilePanel.style.opacity = 1
+    profilePanel.style.pointerEvents = "all"
+    closeBttn.addEventListener("click", e =>{
+        profilePanel.style.opacity = 0
+        profilePanel.style.pointerEvents = "none"
+    })
 })
+
+editProfileImg.addEventListener("click", e =>{
+    profileImgList.style.opacity = 1
+    profileImgList.style.pointerEvents = "all"
+    allIcons.forEach(icon => {
+        icon.addEventListener("click", e =>{
+            let newPath = e.target.src
+            newPath = newPath.replace("http://127.0.0.1:5500/img/profile/", "")
+            localStorage.icon = newPath
+            updateFromLocalStorage()
+            profileImgList.style.opacity = 0
+            profileImgList.style.pointerEvents = "none"
+        })
+    })
+})
+
+changeUserName.addEventListener("click", e =>{
+    changeName.style.opacity = 1
+    changeName.style.pointerEvents = "all"
+    submitName.addEventListener("click", e =>{
+        if(newName.value.length > 3 && newName.value != "Guest"){
+            localStorage.name = newName.value
+            updateFromLocalStorage()
+            changeName.style.opacity = 0
+            changeName.style.pointerEvents = "none"
+        }else{
+            alert("Forbidden name!")
+        }
+    })
+})
+
+

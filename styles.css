@@ -372,9 +372,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding: 0.3rem 1rem 0.3rem 1rem;
+  padding: 0.4rem 1rem 0.4rem 1rem;
   gap: 1rem;
-  display: none;
 }
 .local-profile img {
   height: 100%;
@@ -384,39 +383,138 @@ body {
 }
 .local-profile .user-nickname {
   cursor: pointer;
-  transition: ease-in-out 0.2s;
+  transition: color ease-in-out 0.2s;
 }
 .local-profile .user-nickname:hover {
   color: rgb(200, 155, 60);
 }
 
 .edit-profile {
-  display: none;
   position: absolute;
   z-index: 10000;
-  height: 80%;
-  width: 80%;
-  padding: 1rem;
+  height: 70%;
+  width: 50%;
+  padding: 1.5rem;
   background-color: rgb(1, 10, 19);
   box-shadow: 0px 0px 5px 0.1px rgb(200, 155, 60);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 0;
+  pointer-events: none;
 }
 .edit-profile .profile {
   display: flex;
   align-items: center;
   gap: 2rem;
   height: 100px;
+  position: relative;
+}
+.edit-profile .profile .change-name {
+  display: flex;
+  gap: 0.2rem;
+  opacity: 0;
+  pointer-events: 0;
+}
+.edit-profile .profile .change-name .new-name {
+  height: 2rem;
+  width: 70%;
+  border: 1px solid rgb(200, 155, 60);
+  background-color: rgb(1, 10, 19);
+  padding: 0.3rem;
+  font-size: 1rem;
+  color: white;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.edit-profile .profile .change-name .accept-name {
+  height: 2rem;
+  width: 2rem;
+  border: 1px solid rgb(200, 155, 60);
+  background-color: rgb(1, 10, 19);
+  padding: 0.3rem;
+  font-size: 1rem;
+  color: white;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transition: border ease-in-out 0.2s;
+  cursor: pointer;
+}
+.edit-profile .profile .change-name .accept-name:hover {
+  transform: scale(105%);
+  border: 2px solid green;
+}
+.edit-profile .profile .change-name .accept-name img {
+  filter: invert(100%);
+  border: none;
+  background: none;
+}
+.edit-profile .profile .icon-list {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  background-color: rgb(1, 10, 19);
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.edit-profile .profile .icon-list img {
+  height: 90px;
+  filter: grayscale(50%);
+  transition: ease-in-out 0.2s;
+}
+.edit-profile .profile .icon-list img:hover {
+  filter: grayscale(0%);
 }
 .edit-profile .profile img {
   height: 90%;
   background-color: white;
   border-radius: 100%;
-  border: 2px solid rgb(200, 155, 60);
+  border: 3px solid rgb(200, 155, 60);
   cursor: pointer;
+  transition: transform ease-in-out 0.2s;
+}
+.edit-profile .profile img:hover {
+  transform: scale(105%);
 }
 .edit-profile .profile a {
   font-size: 1.2rem;
+  color: rgb(200, 155, 60);
   cursor: pointer;
+  transition: transform ease-in-out 0.2s;
 }
+.edit-profile .profile a:hover {
+  transform: scale(105%);
+}
+.edit-profile .stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 50%;
+  gap: 1rem;
+}
+.edit-profile .buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.edit-profile .buttons .close {
+  border: none;
+  background: none;
+  color: white;
+  font-family: leagueFont;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: color ease-in-out 0.1s;
+}
+.edit-profile .buttons .close:hover {
+  color: gray;
+}
+
 @media only screen and (max-width: 1100px) {
   .half-screen {
     top: 50%;

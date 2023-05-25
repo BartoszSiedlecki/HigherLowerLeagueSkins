@@ -185,7 +185,6 @@ function revealAnswer(callback){
     }, 100)
 }
 
-
 function lostGame(champions, data){
     setTimeout(() => {
         loseMenu.style.opacity = 1
@@ -206,18 +205,27 @@ function lostGame(champions, data){
         }
 
         localStorage.totalAttempts++
+        localStorage.avgScore = Number(localStorage.avgScore) + Number(score)
         if(score > localStorage.bestScore){
             localStorage.bestScore = score
+            updateFromLocalStorage()
+            updatePrompt.innerText = "That's your new best score! (" + localStorage.bestScore + ")"
+            if(localStorage.name != "Guest"){
+                sendPlayerScore(globalDataLength, localStorage.name, localStorage.bestScore, localStorage.totalAttempts)
+            }
+        }else{
+            updateFromLocalStorage()
         }
-        updateFromLocalStorage()
+        
 
         playerSendForm.addEventListener("submit", e =>{
             event.preventDefault()
             let playerNickname = playerName.value
             if(localStorage.name === "Guest"){
                 localStorage.name = playerNickname
+                updateFromLocalStorage()
             }
-            sendPlayerScore(globalDataLength ,playerNickname, score, 1)
+            sendPlayerScore(globalDataLength, playerNickname, score, 1)
             afterSendPopUp()
         })
 
@@ -348,6 +356,7 @@ const submitName = document.getElementById("accept-name")
 const bestScoreCont = document.getElementById("best-score")
 const avgScoreCont = document.getElementById("average-score")
 const totalAttemptsCont = document.getElementById("total-attempts")
+const updatePrompt = document.getElementById("exchange-for-score")
 
 localStorage.clear()
 if(localStorage.id == null){
@@ -361,19 +370,30 @@ if(localStorage.id == null){
     updateFromLocalStorage()
 }else{
     console.log("Logged in as a: " + localStorage.id)
+    playerSendForm.style.opacity = 0
+    playerSendForm.style.pointerEvents = "none"
     updateFromLocalStorage()
 }
-console.log(localStorage)
-
 
 function updateFromLocalStorage(){
+    console.log(localStorage)
+    let avgScore = Math.round(localStorage.avgScore / localStorage.totalAttempts)
     localUser.innerText = localStorage.name
     localIcon.src = "/img/profile/" + localStorage.icon
     changeUserName.innerText = localStorage.name
     editProfileImg.src = "/img/profile/" + localStorage.icon
     bestScoreCont.innerText = localStorage.bestScore
-    avgScoreCont.innerText = localStorage.avgScore
     totalAttemptsCont.innerText = localStorage.totalAttempts
+    if(isNaN(avgScore)){
+        avgScoreCont.innerText = "0"
+    }else{
+        avgScoreCont.innerText = avgScore
+    } 
+    if(localStorage.name != "Guest"){
+        updatePrompt.innerText = "Reach more than " + localStorage.bestScore + " to beat your best score!"
+        playerSendForm.style.opacity = 0
+        playerSendForm.style.pointerEvents = "none"
+    }
 }
 
 localUser.addEventListener("click", e =>{
@@ -414,5 +434,3 @@ changeUserName.addEventListener("click", e =>{
         }
     })
 })
-
-

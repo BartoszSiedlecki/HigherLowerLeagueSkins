@@ -49,14 +49,22 @@ app.use(bodyParser.json());
 
 app.post('/submit', async (req, res) =>{
   try {
-    const { id, playerName, score, attempts } = req.body;
-    const result = await client.query(
-      'INSERT INTO "Scoreboard" (id, player_name, score, attempts) VALUES ($1, $2, $3, $4) RETURNING *',
-      [id, playerName, score, attempts]
-    )
-    res.json(result.rows[0]);
+    const { id, playerName, score, attempts } = req.body
+
+    const updateQuery = `UPDATE public."Scoreboard" SET id = $1, score = $3, attempts = $4 WHERE player_name = $2`
+    const updateResult = await client.query(updateQuery, [id, playerName, score, attempts])
+    res.json(updateResult.rows[0])
+
+    const insertQuery = `INSERT INTO "Scoreboard" (id, player_name, score, attempts) VALUES ($1, $2, $3, $4)RETURNING *`
+    const insertResult = await client.query(insertQuery, [id, playerName, score, attempts])
+    res.json(insertResult.rows[0])
+
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error " + err)
+    res.status(500).send("Error: " + err)
   }
 })
+
+
+
+

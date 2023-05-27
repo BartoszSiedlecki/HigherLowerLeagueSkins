@@ -358,7 +358,6 @@ const avgScoreCont = document.getElementById("average-score")
 const totalAttemptsCont = document.getElementById("total-attempts")
 const updatePrompt = document.getElementById("exchange-for-score")
 
-localStorage.clear()
 if(localStorage.id == null){
     let newRandomID = crypto.randomUUID()
     localStorage.id = newRandomID
@@ -369,14 +368,12 @@ if(localStorage.id == null){
     localStorage.icon = "guest.png"
     updateFromLocalStorage()
 }else{
-    console.log("Logged in as a: " + localStorage.id)
     playerSendForm.style.opacity = 0
     playerSendForm.style.pointerEvents = "none"
     updateFromLocalStorage()
 }
 
 function updateFromLocalStorage(){
-    console.log(localStorage)
     let avgScore = Math.round(localStorage.avgScore / localStorage.totalAttempts)
     localUser.innerText = localStorage.name
     localIcon.src = "/img/profile/" + localStorage.icon
@@ -411,7 +408,8 @@ editProfileImg.addEventListener("click", e =>{
     allIcons.forEach(icon => {
         icon.addEventListener("click", e =>{
             let newPath = e.target.src
-            newPath = newPath.replace("http://127.0.0.1:5500/img/profile/", "")
+            newPath = newPath.replace("https://higher-lower-league-skins.vercel.app/img/profile/", "")
+            newPath = newPath.replace("http://127.0.0.1:5500/img/profile/", "") // local path for developement
             localStorage.icon = newPath
             updateFromLocalStorage()
             profileImgList.style.opacity = 0

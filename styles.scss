@@ -505,10 +505,9 @@ body{
             }
         }
 
-        .icon-list{
-            opacity: 0;
-            pointer-events: none;
+        .icon-list{  
             position: absolute;
+            z-index: 1000;
             top: 0;
             background-color: $bg;
             height: auto;
@@ -516,6 +515,8 @@ body{
             display: flex;
             flex-wrap: wrap;
             gap: .5rem;
+            opacity: 0;
+            pointer-events: none;
 
             img{
                 height: 90px;

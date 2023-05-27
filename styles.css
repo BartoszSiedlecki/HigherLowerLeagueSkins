@@ -450,9 +450,8 @@ body {
   background: none;
 }
 .edit-profile .profile .icon-list {
-  opacity: 0;
-  pointer-events: none;
   position: absolute;
+  z-index: 1000;
   top: 0;
   background-color: rgb(1, 10, 19);
   height: auto;
@@ -460,6 +459,8 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  opacity: 0;
+  pointer-events: none;
 }
 .edit-profile .profile .icon-list img {
   height: 90px;

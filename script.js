@@ -105,6 +105,7 @@ function generateStartingSetup(champions, data){
         champions.push(data.data[i])
     }
     score = 0
+    previousId = 500
     scoreContainer.innerText = 0
     scoreMobile.innerText = 0
     loseMenu.style.opacity = 0
@@ -201,7 +202,7 @@ function lostGame(champions, data){
         }
 
         for(let i=0; i<=score; i++){
-            setTimeout(() => {postLoseScore.innerHTML = i}, 50 * i)
+            setTimeout(() => { postLoseScore.innerHTML = i }, 50 * i)
         }
 
         localStorage.totalAttempts++
@@ -415,7 +416,6 @@ editProfileImg.addEventListener("click", e =>{
         icon.addEventListener("click", e =>{
             let newPath = e.target.src
             newPath = newPath.replace("https://higher-lower-league-skins.vercel.app/img/profile/", "")
-            newPath = newPath.replace("http://127.0.0.1:5500/img/profile/", "") // local path for developement
             localStorage.icon = newPath
             updateFromLocalStorage()
             profileImgList.style.opacity = 0

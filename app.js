@@ -53,7 +53,6 @@ app.post('/submit', async (req, res) =>{
 
     const updateQuery = `DELETE FROM "Scoreboard" WHERE player_name = $1`
     const updateResult = await client.query(updateQuery, [playerName])
-    res.json(updateResult.rows[0])
 
     const insertQuery = `INSERT INTO "Scoreboard" (id, player_name, score, attempts) VALUES ($1, $2, $3, $4)RETURNING *`
     const insertResult = await client.query(insertQuery, [id, playerName, score, attempts])

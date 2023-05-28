@@ -296,7 +296,7 @@ function fetchScoreboardData(){
     .then(response => response.json())
     .then(data => {
         globalDataLength = data.length
-        if(init != true){
+        if(init !== true){
             scoreboardCont.style.display = "grid"
             generateScoreboard(data)
         }
@@ -333,7 +333,7 @@ scoreboardCont.addEventListener("click", e =>{
     scoreboardCont.style.display = "none"
 })
 
-function sendPlayerScore(id, playerName, score, attempts){  //    
+function sendPlayerScore(id, playerName, score, attempts){ 
     fetch('https://lolgame-backend.onrender.com/submit', {
         method: 'POST',
         headers: {

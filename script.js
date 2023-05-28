@@ -380,7 +380,6 @@ if(localStorage.id == null){
 }
 
 function updateFromLocalStorage(){
-    console.log(localStorage)
     let avgScore = Math.round(localStorage.avgScore / localStorage.totalAttempts)
     localUser.innerText = localStorage.name
     localIcon.src = "/img/profile/" + localStorage.icon

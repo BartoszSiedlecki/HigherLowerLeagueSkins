@@ -51,7 +51,7 @@ app.post('/submit', async (req, res) =>{
   try {
     const { id, playerName, score, attempts, localId } = req.body
 
-    const updateQuery = `DELETE FROM "Scoreboard" WHERE player_name = $1`
+    const updateQuery = `DELETE FROM "Scoreboard" WHERE local_id = $1`
     const updateResult = await client.query(updateQuery, [localId])
 
     const insertQuery = `INSERT INTO "Scoreboard" (id, player_name, score, attempts, local_id) VALUES ($1, $2, $3, $4, $5)RETURNING *`

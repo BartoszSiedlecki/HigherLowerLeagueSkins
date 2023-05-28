@@ -283,17 +283,18 @@ const scoreboardBtn = document.getElementById("scoreboard-btn")
 const scoreboardCont = document.getElementById("scoreboard-container")
 let globalDataLength = 0
 
-fetchScoreboardData()
+
+scoreboardBtn.addEventListener("click", e =>{
+    fetchScoreboardData()
+})
+
 function fetchScoreboardData(){
     fetch('https://lolgame-backend.onrender.com/scores')
     .then(response => response.json())
     .then(data => {
         globalDataLength = data.length
-        scoreboardBtn.addEventListener("click", e =>{
-            fetchScoreboardData()
-            scoreboardCont.style.display = "grid"
-            generateScoreboard(data) 
-        })
+        scoreboardCont.style.display = "grid"
+        generateScoreboard(data)
     })
     .catch(error => console.error(error));
 }

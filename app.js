@@ -49,13 +49,13 @@ app.use(bodyParser.json());
 
 app.post('/submit', async (req, res) =>{
   try {
-    const { id, playerName, score, attempts } = req.body
+    const { id, playerName, score, attempts, localId } = req.body
 
     const updateQuery = `DELETE FROM "Scoreboard" WHERE player_name = $1`
-    const updateResult = await client.query(updateQuery, [playerName])
+    const updateResult = await client.query(updateQuery, [localId])
 
     const insertQuery = `INSERT INTO "Scoreboard" (id, player_name, score, attempts) VALUES ($1, $2, $3, $4)RETURNING *`
-    const insertResult = await client.query(insertQuery, [id, playerName, score, attempts])
+    const insertResult = await client.query(insertQuery, [id, playerName, score, attempts, localId])
     res.json(insertResult.rows[0])
 
   } catch (err) {

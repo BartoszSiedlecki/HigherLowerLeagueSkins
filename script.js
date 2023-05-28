@@ -282,9 +282,12 @@ const scoreboard = document.getElementById("scoreboard")
 const scoreboardBtn = document.getElementById("scoreboard-btn")
 const scoreboardCont = document.getElementById("scoreboard-container")
 let globalDataLength = 0
+let init = true
 
+fetchScoreboardData(init)
 
 scoreboardBtn.addEventListener("click", e =>{
+    init = false
     fetchScoreboardData()
 })
 
@@ -293,8 +296,10 @@ function fetchScoreboardData(){
     .then(response => response.json())
     .then(data => {
         globalDataLength = data.length
-        scoreboardCont.style.display = "grid"
-        generateScoreboard(data)
+        if(init != true){
+            scoreboardCont.style.display = "grid"
+            generateScoreboard(data)
+        }
     })
     .catch(error => console.error(error));
 }
@@ -335,7 +340,7 @@ function sendPlayerScore(id, playerName, score, attempts){  //
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id: id, playerName: playerName, score: score, attempts: attempts })
+        body: JSON.stringify({ id: id, playerName: playerName, score: score, attempts: attempts, localId: localStorage.id })
     })
     .then(response => response.json())
     .catch(error => console.error(error))
@@ -358,7 +363,7 @@ const bestScoreCont = document.getElementById("best-score")
 const avgScoreCont = document.getElementById("average-score")
 const totalAttemptsCont = document.getElementById("total-attempts")
 const updatePrompt = document.getElementById("exchange-for-score")
-localStorage.clear()
+
 if(localStorage.id == null){
     let newRandomID = crypto.randomUUID()
     localStorage.id = newRandomID
@@ -375,6 +380,7 @@ if(localStorage.id == null){
 }
 
 function updateFromLocalStorage(){
+    console.log(localStorage)
     let avgScore = Math.round(localStorage.avgScore / localStorage.totalAttempts)
     localUser.innerText = localStorage.name
     localIcon.src = "/img/profile/" + localStorage.icon

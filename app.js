@@ -50,18 +50,18 @@ app.use(bodyParser.json());
 app.post('/submit', async (req, res) =>{
   try {
     const { id, playerName, score, attempts } = req.body
-
-    const updateQuery = `DELETE FROM "Scoreboard" WHERE player_name = 'AfterPlay'`
+    /*
+    const updateQuery = `DELETE FROM "Scoreboard" WHERE player_name = $1`
     const updateResult = await client.query(updateQuery, [playerName])
     res.json(updateResult.rows[0])
-
+    */
     const insertQuery = `INSERT INTO "Scoreboard" (id, player_name, score, attempts) VALUES ($1, $2, $3, $4)RETURNING *`
     const insertResult = await client.query(insertQuery, [id, playerName, score, attempts])
     res.json(insertResult.rows[0])
 
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error: " + err)
+    res.status(500).send("Error " + err)
   }
 })
 

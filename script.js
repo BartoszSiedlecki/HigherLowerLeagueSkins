@@ -327,7 +327,7 @@ scoreboardCont.addEventListener("click", e =>{
     scoreboardCont.style.display = "none"
 })
 
-function sendPlayerScore(id, playerName, score, attempts){
+function sendPlayerScore(id, playerName, score, attempts){  //    
     fetch('https://lolgame-backend.onrender.com/submit', {
         method: 'POST',
         headers: {
@@ -357,7 +357,7 @@ const bestScoreCont = document.getElementById("best-score")
 const avgScoreCont = document.getElementById("average-score")
 const totalAttemptsCont = document.getElementById("total-attempts")
 const updatePrompt = document.getElementById("exchange-for-score")
-
+localStorage.clear()
 if(localStorage.id == null){
     let newRandomID = crypto.randomUUID()
     localStorage.id = newRandomID

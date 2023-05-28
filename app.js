@@ -54,13 +54,13 @@ app.post('/submit', async (req, res) =>{
     const updateQuery = `DELETE FROM "Scoreboard" WHERE player_name = $1`
     const updateResult = await client.query(updateQuery, [localId])
 
-    const insertQuery = `INSERT INTO "Scoreboard" (id, player_name, score, attempts, localId) VALUES ($1, $2, $3, $4, $5)RETURNING *`
+    const insertQuery = `INSERT INTO "Scoreboard" (id, player_name, score, attempts, local_id) VALUES ($1, $2, $3, $4, $5)RETURNING *`
     const insertResult = await client.query(insertQuery, [id, playerName, score, attempts, localId])
     res.json(insertResult.rows[0])
 
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error " + err)
+    res.status(500).json({ error: "Error " + err })
   }
 })
 
